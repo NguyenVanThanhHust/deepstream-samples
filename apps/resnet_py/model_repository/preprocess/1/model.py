@@ -34,6 +34,7 @@ def preprocess_opencv(image_array: np.ndarray) -> np.ndarray:
     # 5. Normalize (ImageNet mean/std)
     mean = np.array([0.485, 0.456, 0.406], dtype=np.float32)
     std  = np.array([0.229, 0.224, 0.225], dtype=np.float32)
+
     img = (img - mean) / std
 
     # 6. HWC → CHW

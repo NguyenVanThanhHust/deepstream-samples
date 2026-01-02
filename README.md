@@ -1,14 +1,15 @@
 # deepstream-samples
 ## Introduction
-Sample deepstream app that ultilize various deepstream components
+Sample deepstream apps that ultilize various deepstream components
 
 
 ## How to use this repo
+Use deesptream 7.0 for now. 8.0 is not tested.
 
 | DS | TensorRT | CUDA | Dockerfile | Note |
 | :------- | ------: | ------: | -------: | -------: | 
 | 7.0     | 8.6.1.6   | 12.2 | [deepstream70.Dockerfile](docker/deepstream70.Dockerfile) | not yet |
-| 8.0   | 10.9.0.34   | 12.8 | [deepstream80.Dockerfile](docker/deepstream70.Dockerfile) |not yet |
+| 8.0   | 10.9.0.34   | 12.8 | [deepstream80.Dockerfile](docker/deepstream80.Dockerfile) |not yet |
 
 You should use docker as in [How to install](Install.md). 
 
@@ -16,8 +17,8 @@ Go to folder [apps](apps). You can follow predefined order for easier learning c
 
 Most of samples can be categorized into: parse output of AI models, learning components of deepstream, using gstreamer components
 ## TODO
-- [ ] [yolox](app/yolox_parser_py)
 - [ ] [image-classification-cpp](app/im_cls_c)
+- [ ] [yolox](app/yolox_parser_py)
 - [ ] [yolov1-py](app/yolov1-py)
 - [ ] [yolov1-cpp](app/yolov1-cpp)
 - [ ] [yolov3-py](app/yolov3-py)

@@ -34,7 +34,6 @@ def nvds_infer_parse_custom_resnet(tensor_meta):
         # print(f"frame {frame_idx} lean_array", lean_array[:10])
         frame_idx += 1
         predicted_class_index = np.argmax(lean_array, axis=0)
-        print(f"frame {frame_idx} class {predicted_class_index}")
 
     output = "class_" + str(predicted_class_index)
     return output

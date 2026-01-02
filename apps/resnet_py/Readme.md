@@ -1,5 +1,5 @@
 # Image classification
-This should be the very first app you run in deepstream. Currently, output between TensorRT and Pytorch is different. I'm checking it. It could be due to net-scale-factor+ offset. 
+This should be the very first app you run in deepstream. Currently, output between TensorRT and Pytorch is a bit different. I'm checking it. It could be due to net-scale-factor + offset. 
 
 ## Prerequisites
 - Basic python programming

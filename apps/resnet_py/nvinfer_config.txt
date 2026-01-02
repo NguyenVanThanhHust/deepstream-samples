@@ -2,8 +2,10 @@
 gpu-id=0
 # net-scale-factor=1.0
 # y = net-scale-factor*(x-offsets)
-net-scale-factor=0.00392156862
-offsets=127.5;127.5;127.5
+# net-scale-factor=0.00392156862
+# offsets=127.5;127.5;127.5
+offsets=123.675;116.28;103.53
+net-scale-factor=0.01735
 
 # 0:RGB 1:BGR
 model-color-format=0
