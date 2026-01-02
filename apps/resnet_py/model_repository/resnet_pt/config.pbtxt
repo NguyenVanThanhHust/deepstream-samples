@@ -1,0 +1,20 @@
+name: "resnet_pt"
+backend: "pytorch"
+max_batch_size: 256
+
+input [
+    {
+        name: "PT_INPUT_0"
+        data_type: TYPE_FP32
+        dims: [ 3, 224, 224 ]
+    }
+]
+
+output [
+    {
+        name: "PT_OUTPUT_0"
+        data_type: TYPE_FP32
+        dims: [1000 ]
+        reshape { shape: [ 1000 ] }
+    }
+]

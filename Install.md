@@ -7,12 +7,7 @@ For Jetson, I'm using Jetpack 6.1 and everything packed with it.
 ### Normal
 For deepstream 7.0 on laptop/server.
 ```
-docker build -t ds70_img -f docker/deepstream_x86_64.Dockerfile .
-```
-
-For deepstream 7.0 on Jetson.
-```
-docker build -t ds70_img -f docker/deepstream_jetson.Dockerfile .
+docker build -t ds70_img -f docker/deepstream70.Dockerfile .
 ```
 
 For deepstream 8.0 

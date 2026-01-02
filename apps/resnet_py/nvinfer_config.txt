@@ -1,0 +1,29 @@
+[property]
+gpu-id=0
+# net-scale-factor=1.0
+# y = net-scale-factor*(x-offsets)
+net-scale-factor=0.00392156862
+offsets=127.5;127.5;127.5
+
+# 0:RGB 1:BGR
+model-color-format=0
+
+infer-dims=3;224;224
+
+model-engine-file=resnet18.engine
+onnx-file=resnet18.onnx
+num-detected-classes=1000
+
+interval=0
+gie-unique-id=1
+process-mode=1
+
+# 0=Detector, 1=Classifier, 2=Segmentation, 100=Other
+network-type=1
+
+# 0：Group Rectange 1：DBSCAN 2：NMS 3:DBSCAN+NMS 4:None
+cluster-mode=4
+maintain-aspect-ratio=0
+
+## nvinfer plugin then attaches the tensor meta to the input buffer.
+output-tensor-meta=1

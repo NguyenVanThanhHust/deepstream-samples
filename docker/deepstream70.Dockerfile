@@ -38,7 +38,7 @@ RUN apt-get update && apt install -y python3-gi python3-dev python3-gst-1.0 pyth
 WORKDIR /opt/nvidia/deepstream/deepstream/
 RUN ./user_additional_install.sh
 RUN ./update_rtpmanager.sh
-RUN python3 -m pip install opencv-python loguru confluent_kafka requests cupy
+RUN python3 -m pip install opencv-python loguru confluent_kafka requests
 RUN python3 -m pip install --upgrade google-api-python-client cuda-python build Pillow
 RUN python3 -m pip install --force-reinstall protobuf==3.20.* numpy==1.26.0
 
@@ -71,7 +71,6 @@ RUN pip3 install ./pyds-*.whl
 ## Add ReID model
 RUN mkdir /opt/nvidia/deepstream/deepstream/samples/models/Tracker/
 RUN wget https://api.ngc.nvidia.com/v2/models/nvidia/tao/reidentificationnet/versions/deployable_v1.0/files/resnet50_market1501.etlt -P /opt/nvidia/deepstream/deepstream/samples/models/Tracker/
-RUN wget https://vision.in.tum.de/webshare/u/seidensc/GHOST/ghost_reid.onnx -P /opt/nvidia/deepstream/deepstream/samples/models/Tracker/
 
 RUN echo 'alias trtexec=/usr/src/tensorrt/bin/trtexec' >> ~/.bashrc
 RUN echo 'alias python=python3' >> ~/.bashrc
@@ -81,24 +80,3 @@ RUN echo "alias python=/usr/bin/python3" >> ~/.bashrc
 RUN echo "alias p=/usr/bin/python3" >> ~/.bashrc
 
 WORKDIR /workspace/
-
-ARG USERNAME=thanhnv
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-
-# Create the user
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
-    #
-    # [Optional] Add sudo support. Omit if you don't need to install software after connecting.
-    && apt-get update \
-    && apt-get install -y sudo \
-    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-    && chmod 0440 /etc/sudoers.d/$USERNAME
-
-# ********************************************************
-# * Anything else you want to do like clean up goes here *
-# ********************************************************
-
-# [Optional] Set the default user. Omit if you want to keep the default as root.
-USER $USERNAME

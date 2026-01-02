@@ -1,0 +1,47 @@
+name: "pipeline"
+platform: "ensemble"
+max_batch_size: 256
+input [
+  {
+    name: "PIPELINE_INPUT"
+    data_type: TYPE_UINT8
+    format: FORMAT_NCHW
+    dims: [3, 1080, 1920]
+  }
+]
+output [
+  {
+    name: "PIPELINE_OUTPUT"
+    data_type: TYPE_FP32
+    dims: [1000]
+  }
+]
+
+ensemble_scheduling {
+  step [
+    {
+      model_name: "preprocess"
+      model_version: 1
+      input_map {
+        key: "PREPROCESS_INPUT_0"
+        value: "PIPELINE_INPUT"
+      }
+      output_map {
+        key: "PREPROCESS_OUTPUT_0"
+        value: "MEDIUM_PRE_RESNET"
+      }
+    },
+    {
+      model_name: "resnet_pt"
+      model_version: 1
+      input_map {
+        key: "PT_INPUT_0"
+        value: "MEDIUM_PRE_RESNET"
+      }
+      output_map {
+        key: "PT_OUTPUT_0"
+        value: "PIPELINE_OUTPUT"
+      }
+    }
+  ]
+}
