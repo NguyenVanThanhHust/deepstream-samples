@@ -17,7 +17,7 @@ Go to folder [apps](apps). You can follow predefined order for easier learning c
 
 Most of samples can be categorized into: parse output of AI models, learning components of deepstream, using gstreamer components
 ## TODO
-- [ ] [image-classification-cpp](app/im_cls_c)
+- [ ] [image-classification-cpp](app/im_cls_cpp)
 - [ ] [yolox](app/yolox_parser_py)
 - [ ] [yolov1-py](app/yolov1-py)
 - [ ] [yolov1-cpp](app/yolov1-cpp)
@@ -30,19 +30,19 @@ Most of samples can be categorized into: parse output of AI models, learning com
 - [ ] [yolov11-3d-pose-estimation-py](app/yolov11-3d-pose-estimation-py)
 - [ ] [yolov11-3d-pose-estimation-cpp](app/yolov11-3d-pose-estimation-cpp)
 - [ ] [object-tracking-in-py](apps/object_tracking_py)
-- [ ] [object-tracking-in-cpp](apps/object_tracking_c)
+- [ ] [object-tracking-in-cpp](apps/object_tracking_cpp)
 - [ ] [SORT-in-py](apps/SORT_py)
-- [ ] [SORT-in-cpp](apps/SORT_c)
+- [ ] [SORT-in-cpp](apps/SORT_cpp)
 - [ ] [Deep-SORT-in-py](apps/SORT_py)
-- [ ] [Deep-SORT-in-cpp](apps/SORT_c)
+- [ ] [Deep-SORT-in-cpp](apps/SORT_cpp)
 - [ ] [face-recognition-in-py](apps/face_recognition_py)
-- [ ] [face-recognition-in-cpp](apps/face_recognition_c)
+- [ ] [face-recognition-in-cpp](apps/face_recognition_cpp)
 - [ ] [depth-estimation-in-py](apps/depth_estimation_py)
-- [ ] [depth-estimation-in-cpp](apps/depth_estimation_c)
+- [ ] [depth-estimation-in-cpp](apps/depth_estimation_cpp)
 - [ ] [BoT-SORT-in-py](apps/BoT_SORT_py)
-- [ ] [BoT-SORT-in-cpp](apps/BoT_SORT_c)
+- [ ] [BoT-SORT-in-cpp](apps/BoT_SORT_cpp)
 - [ ] [GGML-backend-in-py](apps/ggml_backend_py)
-- [ ] [GGML-backend-in-cpp](apps/ggml_backend_c)
+- [ ] [GGML-backend-in-cpp](apps/ggml_backend_cpp)
 
 ## License
 For anything from nvidia with c-version , follow their deepstream licences. 

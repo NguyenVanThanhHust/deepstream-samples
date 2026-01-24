@@ -49,7 +49,6 @@ RUN unzip opencv.zip
 WORKDIR /opt/opencv-4.8.0/build/
 RUN cmake ..
 RUN make -j8 && make install && ldconfig 
-
 RUN rm /opt/opencv.zip
 
 # deepstream python
@@ -71,6 +70,12 @@ RUN pip3 install ./pyds-*.whl
 ## Add ReID model
 RUN mkdir /opt/nvidia/deepstream/deepstream/samples/models/Tracker/
 RUN wget https://api.ngc.nvidia.com/v2/models/nvidia/tao/reidentificationnet/versions/deployable_v1.0/files/resnet50_market1501.etlt -P /opt/nvidia/deepstream/deepstream/samples/models/Tracker/
+
+WORKDIR /opt/
+RUN git clone https://github.com/p-ranav/argparse
+WORKDIR /opt/argparse/build 
+RUN cmake ..
+RUN make -j4 && make install
 
 RUN echo 'alias trtexec=/usr/src/tensorrt/bin/trtexec' >> ~/.bashrc
 RUN echo 'alias python=python3' >> ~/.bashrc
