@@ -4,18 +4,17 @@ Currently, this repo is tested with deepstream 7.0 Dockerfile.
 For laptop, I'm using CUDA runtime 12.4, CUDA driver 12.6 as host.   
 For Jetson, I'm using Jetpack 6.1 and everything packed with it. 
 ## Build docker image
-### Normal
-For deepstream 7.0 on laptop/server.
+For deepstream python on laptop/server.
+Deepstream 7.0 is supported on Jetson.
 ```
-docker build -t ds70_img -f docker/deepstream70.Dockerfile .
+docker build -t ds70_img -f dockers/ds70.Dockerfile .
+```
+Newest version is 9.0
+```
+docker build -t ds90_img -f dockers/ds90.Dockerfile .
 ```
 
-For deepstream 8.0 
-```
-docker build -t ds80_img -f docker/deepstream80.Dockerfile .
-```
-### Costumize docker
-Not yet
+
 ## Build docker container
 ```
 docker run --rm -it --name deepstream_ctn --gpus=all --shm-size 8G --network host -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY -e CUDA_CACHE_DISABLE=0 --env="QT_X11_NO_MITSHM=1" --volume="$PWD:/workspace/" -w /workspace/ ds70_img:latest /bin/bash
@@ -27,7 +26,7 @@ docker ps | grep "deepstream_ctn" | awk '{ print $1 }' | xargs -I {} sh -c "xhos
 
 Or run app
 ```
-docker run --rm --name deepstream_ctn --gpus=all --shm-size 8G --network host  --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --volume="$PWD:/workspace/" deepstream_img:latest python3 your_application.py your_arguments
+docker run --rm --name deepstream_ctn --gpus=all --shm-size 8G --network host  --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --volume="$PWD:/workspace/" ds_71_py:latest python3 your_application.py your_arguments
 ```
 
 There are 2 dockers here: one to convert model from pytorch to TensorRT, other to run your deepstream app.
