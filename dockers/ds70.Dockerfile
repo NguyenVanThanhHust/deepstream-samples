@@ -41,15 +41,13 @@ RUN apt-get update && apt install -y python3-gi python3-dev python3-gst-1.0 pyth
 WORKDIR /opt/nvidia/deepstream/deepstream/
 RUN ./user_additional_install.sh
 RUN ./update_rtpmanager.sh
-RUN python3 -m pip install opencv-python loguru confluent_kafka requests
-RUN python3 -m pip install --upgrade google-api-python-client cuda-python build Pillow
-RUN python3 -m pip install --force-reinstall protobuf==3.20.* numpy==1.26.0
+RUN python3 -m pip install opencv-python loguru confluent_kafka requests google-api-python-client cuda-python build numpy protobuf Pillow 
 
 # build opencv c++
 WORKDIR /opt/
-RUN wget -O opencv.zip https://github.com/opencv/opencv/archive/4.8.0.zip
+RUN wget -O opencv.zip https://github.com/opencv/opencv/archive/4.12.0.zip
 RUN unzip opencv.zip
-WORKDIR /opt/opencv-4.8.0/build/
+WORKDIR /opt/opencv-4.12.0/build/
 RUN cmake ..
 RUN make -j8 && make install && ldconfig 
 RUN rm /opt/opencv.zip

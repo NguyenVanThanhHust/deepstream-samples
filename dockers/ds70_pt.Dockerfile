@@ -1,5 +1,8 @@
-FROM nvcr.io/nvidia/deepstream:9.0-triton-multiarch
+FROM nvcr.io/nvidia/deepstream:7.0-triton-multiarch
 ARG DEBIAN_FRONTEND=noninteractive
+
+# 1. Broad cleanup of the problematic repo references
+RUN grep -l "librealsense" /etc/apt/sources.list.d/* | xargs rm -f || true
 
 # Install some basic utilities
 RUN apt-get update && apt-get install -y \
@@ -30,16 +33,14 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt install -y python3-gi python3-dev python3-gst-1.0 python-gi-dev meson \
-    python3-pip python3-venv cmake g++ build-essential libglib2.0-dev \
-    libglib2.0-dev-bin libgstreamer1.0-dev libtool m4 autoconf automake libgirepository1.0-dev \ 
+    python3-pip python3.10-dev cmake g++ build-essential libglib2.0-dev \
+    libglib2.0-dev-bin libgstreamer1.0-dev libtool m4 autoconf automake libgirepository1.0-dev \
     libcairo2-dev libgstreamer-plugins-base1.0-dev fish
 
 # additional libs for deepstream
 WORKDIR /opt/nvidia/deepstream/deepstream/
 RUN ./user_additional_install.sh
 RUN ./update_rtpmanager.sh
-RUN python3 -m venv --system-site-packages /opt/venvs/pyds
-ENV PATH="/opt/venvs/pyds/bin:$PATH"
 RUN python3 -m pip install opencv-python loguru confluent_kafka requests google-api-python-client cuda-python build numpy protobuf Pillow 
 
 # build opencv c++
@@ -53,21 +54,23 @@ RUN rm /opt/opencv.zip
 
 # deepstream python
 WORKDIR /opt/nvidia/deepstream/deepstream/sources/
-RUN git clone -b v1.2.2 https://github.com/NVIDIA-AI-IOT/deepstream_python_apps.git --recursive --shallow-submodules
+RUN git clone -b v1.1.11 https://github.com/NVIDIA-AI-IOT/deepstream_python_apps.git --recursive --shallow-submodules
 WORKDIR /opt/nvidia/deepstream/deepstream/sources/deepstream_python_apps/
 RUN git submodule update --init
-RUN python3 bindings/3rdparty/git-partial-submodule/git-partial-submodule.py restore-sparse
 
-RUN cd bindings/3rdparty/gstreamer/subprojects/gst-python/ && \
+RUN cd 3rdparty/gstreamer/subprojects/gst-python/ && \
     meson setup build && \
     cd build && \
     ninja && \
     ninja install
 
-WORKDIR /opt/nvidia/deepstream/deepstream/sources/deepstream_python_apps/bindings
-RUN CMAKE_BUILD_PARALLEL_LEVEL=$(nproc) python3 -m build 
-WORKDIR /opt/nvidia/deepstream/deepstream/sources/deepstream_python_apps/bindings/dist
+WORKDIR /opt/nvidia/deepstream/deepstream/sources/deepstream_python_apps/bindings/build
+RUN cmake .. && make -j10
 RUN pip3 install ./pyds-*.whl
+
+## Add ReID model
+RUN mkdir /opt/nvidia/deepstream/deepstream/samples/models/Tracker/
+RUN wget https://api.ngc.nvidia.com/v2/models/nvidia/tao/reidentificationnet/versions/deployable_v1.0/files/resnet50_market1501.etlt -P /opt/nvidia/deepstream/deepstream/samples/models/Tracker/
 
 WORKDIR /opt/
 RUN git clone https://github.com/p-ranav/argparse
@@ -75,6 +78,8 @@ WORKDIR /opt/argparse/build
 RUN cmake ..
 RUN make -j4 && make install
 
+# Install pytorch
+RUN pip install torch==2.9.1 torchvision==0.24.1 torchaudio==2.9.1 --index-url https://download.pytorch.org/whl/cu128
 RUN echo 'alias trtexec=/usr/src/tensorrt/bin/trtexec' >> ~/.bashrc
 RUN echo 'alias python=python3' >> ~/.bashrc
 RUN echo "alias ..='cd ..'" >> ~/.bashrc
