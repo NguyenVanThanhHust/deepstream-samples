@@ -78,11 +78,17 @@ WORKDIR /opt/argparse/build
 RUN cmake ..
 RUN make -j4 && make install
 
+# alias for development
 RUN echo 'alias trtexec=/usr/src/tensorrt/bin/trtexec' >> ~/.bashrc
 RUN echo 'alias python=python3' >> ~/.bashrc
 RUN echo "alias ..='cd ..'" >> ~/.bashrc
 RUN echo "alias ...='cd .. && cd ..'" >> ~/.bashrc
 RUN echo "alias python=/usr/bin/python3" >> ~/.bashrc
 RUN echo "alias p=/usr/bin/python3" >> ~/.bashrc
+
+# Change to non-root user
+RUN useradd -m appuser
+RUN chown -R appuser:appuser /workspace
+USER appuser
 
 WORKDIR /workspace/

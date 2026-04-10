@@ -80,11 +80,18 @@ RUN make -j4 && make install
 
 # Install pytorch
 RUN pip install torch==2.9.1 torchvision==0.24.1 torchaudio==2.9.1 --index-url https://download.pytorch.org/whl/cu128
+
+# alias for development
 RUN echo 'alias trtexec=/usr/src/tensorrt/bin/trtexec' >> ~/.bashrc
 RUN echo 'alias python=python3' >> ~/.bashrc
 RUN echo "alias ..='cd ..'" >> ~/.bashrc
 RUN echo "alias ...='cd .. && cd ..'" >> ~/.bashrc
 RUN echo "alias python=/usr/bin/python3" >> ~/.bashrc
 RUN echo "alias p=/usr/bin/python3" >> ~/.bashrc
+
+# Change to non-root user
+RUN useradd -m appuser
+RUN chown -R appuser:appuser /workspace
+USER appuser
 
 WORKDIR /workspace/
