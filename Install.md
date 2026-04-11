@@ -17,7 +17,20 @@ docker build -t ds90_img -f dockers/ds90.Dockerfile ./dockers/
 
 ## Build docker container
 ```
-docker run --rm -it --name deepstream_ctn --gpus=all --shm-size 8G --network host -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY -e CUDA_CACHE_DISABLE=0 --env="QT_X11_NO_MITSHM=1" --volume="$PWD:/workspace/" -w /workspace/ ds70_img:latest /bin/bash
+docker run --rm -it \
+  --name deepstream_ctn \
+  --user $(id -u):$(id -g) \
+  --gpus all \
+  --shm-size 8G \
+  --network host \
+  --env DISPLAY=$DISPLAY \
+  --env CUDA_CACHE_DISABLE=0 \
+  --env QT_X11_NO_MITSHM=1 \
+  --volume /tmp/.X11-unix:/tmp/.X11-unix \
+  --volume "$PWD:/workspace/" \
+  --workdir /workspace/ \
+  ds70_img:latest \
+  /bin/bash
 ```
 Open other terminal, expose to show output video. Warning, from what I read, this isn't secure. But I don't know other way, so do it at your own risk. 
 ```
@@ -26,7 +39,20 @@ docker ps | grep "deepstream_ctn" | awk '{ print $1 }' | xargs -I {} sh -c "xhos
 
 Or run app
 ```
-docker run --rm --name deepstream_ctn --gpus=all --shm-size 8G --network host  --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --volume="$PWD:/workspace/" ds_71_py:latest python3 your_application.py your_arguments
+docker run --rm -it \
+  --name deepstream_ctn \
+  --user $(id -u):$(id -g) \
+  --gpus all \
+  --shm-size 8G \
+  --network host \
+  --env DISPLAY=$DISPLAY \
+  --env CUDA_CACHE_DISABLE=0 \
+  --env QT_X11_NO_MITSHM=1 \
+  --volume /tmp/.X11-unix:/tmp/.X11-unix \
+  --volume "$PWD:/workspace/" \
+  --workdir /workspace/ \
+  ds70_img:latest \
+  python3 your_application.py your_arguments
 ```
 
 There are 2 dockers here: one to convert model from pytorch to TensorRT, other to run your deepstream app.

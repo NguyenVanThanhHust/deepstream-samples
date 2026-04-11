@@ -43,13 +43,21 @@ ENV PATH="/opt/venvs/pyds/bin:$PATH"
 RUN python3 -m pip install opencv-python loguru confluent_kafka requests google-api-python-client cuda-python build numpy protobuf Pillow 
 
 # build opencv c++
-WORKDIR /opt/
-RUN wget -O opencv.zip https://github.com/opencv/opencv/archive/4.12.0.zip
-RUN unzip opencv.zip
-WORKDIR /opt/opencv-4.12.0/build/
-RUN cmake ..
-RUN make -j8 && make install && ldconfig 
-RUN rm /opt/opencv.zip
+WORKDIR /opt
+RUN wget -O opencv.zip https://github.com/opencv/opencv/archive/4.12.0.zip \
+    && unzip opencv.zip \
+    && rm opencv.zip
+WORKDIR /opt/opencv-4.12.0
+RUN mkdir build
+WORKDIR /opt/opencv-4.12.0/build
+RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
+          -D CMAKE_INSTALL_PREFIX=/usr/local \
+          -D BUILD_opencv_python2=OFF \
+          -D BUILD_opencv_python3=OFF \
+          -D BUILD_opencv_java=OFF \
+          -D BUILD_EXAMPLES=OFF \
+          ..
+RUN make -j$(nproc) && make install && ldconfig
 
 # deepstream python
 WORKDIR /opt/nvidia/deepstream/deepstream/sources/
@@ -82,10 +90,5 @@ RUN echo "alias ..='cd ..'" >> ~/.bashrc
 RUN echo "alias ...='cd .. && cd ..'" >> ~/.bashrc
 RUN echo "alias python=/usr/bin/python3" >> ~/.bashrc
 RUN echo "alias p=/usr/bin/python3" >> ~/.bashrc
-
-# Change to non-root user
-RUN useradd -m appuser
-RUN chown -R appuser:appuser /workspace
-USER appuser
 
 WORKDIR /workspace/
