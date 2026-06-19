@@ -15,8 +15,11 @@ You should use docker as in [How to install](Install.md).
 
 Go to folder [apps](apps). You can follow predefined order for easier learning curve or read [app readme for whatever app you want](apps/Readme.md)
 
-Most of samples can be categorized into: parse output of AI models, learning components of deepstream, using gstreamer components
+Most of samples can be categorized into: parse output of AI models, learning components of deepstream, using gstreamer components. 
+Each folder should be able to run independently, hardware is RTX 4060
+
 ## TODO
+- [ ] [video-pipeline-with-pytorch](video-pipeline-with-pytorch)
 - [ ] [image-classification-cpp](app/im_cls_cpp)
 - [ ] [yolox](app/yolox_parser_py)
 - [ ] [yolov1-py](app/yolov1-py)

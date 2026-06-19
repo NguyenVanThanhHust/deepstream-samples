@@ -86,7 +86,7 @@ RUN make -j4 && make install
 
 # Install pytorch
 RUN pip install torch==2.9.1 torchvision==0.24.1 torchaudio==2.9.1 --index-url https://download.pytorch.org/whl/cu128
-RUN pip install torchsummary
+RUN pip install torchsummary ultralytics pandas tqdm seaborn
 
 RUN pip install cupy-cuda12x
 # alias for development
