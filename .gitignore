@@ -1,3 +1,4 @@
+*.json
 working/video_pytorch_pipeline/logs
 *.plan
 *.bkp
