@@ -7,13 +7,18 @@ For Jetson, I'm using Jetpack 6.1 and everything packed with it.
 For deepstream python on laptop/server.
 Deepstream 7.0 is supported on Jetson.
 ```
-docker build -t ds70_img -f dockers/ds70.Dockerfile ./dockers/
+docker build -t ds70_img -f dockers/ds70_dev.Dockerfile ./dockers/
 ```
 Newest version is 9.0
 ```
 docker build -t ds90_img -f dockers/ds90.Dockerfile ./dockers/
 ```
 
+
+For deployment version,
+```
+docker build -t ds70_deploy_img -f dockers/ds70_deploy.Dockerfile ./dockers/
+```
 
 ## Build docker container
 ```
